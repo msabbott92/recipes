@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Recipe</title>
+    <link rel="stylesheet" href="C:\Users\abbot\Desktop\Coding Dojo\Python\flask_mySQL\Dojo Survey\flask_app\static\style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+        <div class="mx-auto p-4 mt-5 bg-dark-subtle rounded-4" style="max-width: 700px;">
+            <div class="text-center">
+                <p class="fs-3">Add a New Recipe!</p>
+                <a href="/recipes">back to recipes</a> | <a href="/logout">Logout</a>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="text-danger">{{message}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <form action="/create_recipe" method="post">
+                <div class="mb-2">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" name = "name" class="form-control">
+                </div>
+                <label for="description" class="mb-2">Description:</label>
+                    <textarea class="form-control" name="description" rows="2"></textarea>
+                <label for="instructions" class="mb-2">Instructions:</label>
+                    <textarea class="form-control" name="instructions" rows="4"></textarea>
+                <label for="form-check">Under 30 minutes?</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="under_30" value="1" id="under_30_yes">
+                    <label class="form-check-label" for="under_30_yes">
+                    Yes
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="under_30" value="0" id="under_30_no" checked>
+                    <label class="form-check-label" for="under_30_no">
+                    No
+                    </label>
+                </div>
+                <div class="date_input mb-4">
+                    <label for="created_at">Date Cooked/Made:</label>
+                    <input type="date" name="date_made">
+                </div>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+</body>
+</html>
