@@ -34,12 +34,6 @@ class User:
     def validate_user(user): 
         is_valid = True
 
-        if not EMAIL_REGEX.match(user['email']):
-            flash("Invalid email address!", "register")
-            is_valid = False
-        elif User.get_by_email(user):
-            flash("Email already taken", "register")
-            is_valid = False
         if len(user['first_name']) < 2:
             flash("First name is reqired", "register")
             is_valid = False
@@ -48,6 +42,12 @@ class User:
             is_valid = False
         if len(user['email']) < 2:
             flash("Email is required", "register")
+            is_valid = False
+        elif not EMAIL_REGEX.match(user['email']):
+            flash("Invalid email address!", "register")
+            is_valid = False
+        elif User.get_by_email(user):
+            flash("Email already taken", "register")
             is_valid = False
         if user['password'] != user['confirm_password']:
             flash("Passwords don't match","register")
@@ -59,7 +59,10 @@ class User:
         print(data, "method")
         query = 'SELECT * FROM users WHERE email = %(email)s;'
         result = connectToMySQL(cls.db).query_db(query,data)
-        return cls(result[0])
+        if result:
+            return cls(result[0])
+        else:
+            return None
     
     @classmethod
     def get_one_by_id(cls, data):

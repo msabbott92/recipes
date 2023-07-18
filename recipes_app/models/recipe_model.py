@@ -63,7 +63,15 @@ class Recipe:
         print(data)
         query = "SELECT * FROM recipes JOIN users on recipes.user_id = users.id WHERE recipes.id = %(id)s"
         results = connectToMySQL(cls.db).query_db(query, data)
-        return cls(results[0])
+        recipe_data = results[0]
+        recipe = cls(recipe_data)
+        user_info = {
+                "id":recipe_data["users.id"],
+                "first_name": recipe_data["first_name"],
+                "last_name": recipe_data["last_name"],
+            }
+        recipe.creator = user_info
+        return recipe
 
     @classmethod
     def update_recipe(cls, data):
